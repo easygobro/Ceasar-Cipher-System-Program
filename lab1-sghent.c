@@ -71,10 +71,24 @@ int Decrypt() {
 	}
 
 int main() {
-	char command[10];
-	printf("Please Enter a command: ")
-	fgets(command, sizeof(command), stdin);
-	if (command[i] ==  )
 
+	char str[10];
+	char *token;
+	char *original;
+	char *theRest;
+
+	printf("\nPlease enter a command: "); 
+	fgets(str, sizeof(str), stdin);
+
+	original = strdup(str);
+	theRest = original;
+
+	const char s[2] = "(";
+	const char s2[2] = ")";
+	
+	while ((token = strtok_r(theRest, , &theRest))) {
+		printf("%s\n", token);
+	} 
+	
 	return 0;
 }
