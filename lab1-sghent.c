@@ -8,7 +8,8 @@
 
 
 //avoid implicate error by calling functions before main
-
+char *token;
+char *token2;
 
 //function to encrypt messages with ceasar cipher
 int Encrypt() {
@@ -18,8 +19,13 @@ int Encrypt() {
 	int key = 5;
 	int i;
 
-	printf("Please enter some text: ");
-	fgets(plainText, sizeof(plainText), stdin);
+	plainText[101] = *token2;
+
+//	plainText[101] = *token2;
+
+// 	for user input 	
+//	printf("Please enter some text: ");
+//	fgets(plainText, sizeof(plainText), stdin);
 	
 	for (i=0; i < strlen(plainText); i++) {
 		//check if it is a capital letter
@@ -36,7 +42,7 @@ int Encrypt() {
 	
 	}	
        		//print out the ciphered text	
-		printf("\nCiphered Text: ");
+		printf("\nCiphered Text: \n");
 		printf(cypherText, &cypherText);	
 		return 0;
 }
@@ -65,30 +71,46 @@ int Decrypt() {
 		}	
 	}
 	//print out the decrypted text
-	printf("\nCiphered Text: ");
+	printf("\nCiphered Text: \n");
 	printf(plainText, &plainText);
 	return 0;
 	}
 
+//char *token;
+//char *token2;i
+
+int Help(){ 
+	printf("Welcome to Ceasar Cipher Encrypter/Decrypter\n");
+	printf("Commands avaiable are: encrypt and decrypt\n");
+	printf("syntax must be 'encrypt(message)' otherwise will result in error\n");
+	}
+
 int main() {
 
-	char str[10];
-	char *token;
-	char *original;
-	char *theRest;
-
-	printf("\nPlease enter a command: "); 
+	char str[101];
+	//char *token;
+	//char *token2;
+	Help();
+	printf("Please enter a command: "); 
 	fgets(str, sizeof(str), stdin);
-
-	original = strdup(str);
-	theRest = original;
-
-	const char s[2] = "(";
-	const char s2[2] = ")";
 	
-	while ((token = strtok_r(theRest, , &theRest))) {
-		printf("%s\n", token);
-	} 
-	
+	token = strtok(str, "(");
+	token2 = strtok(NULL, ")");
+
+	printf("%s\n", token);	
+	printf("%s\n", token2);
+
+	if (strcmp(token, "encrypt") == 0) {
+		Encrypt();
+	} else if (strcmp(token, "decrypt") == 0) {
+		Decrypt();
+	} else {
+		printf("Please enter a valid command!");
+	}
+
 	return 0;
-}
+
+	}
+
+	
+
