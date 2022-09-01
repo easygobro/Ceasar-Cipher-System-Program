@@ -27,11 +27,6 @@ int main() {
 	token = strtok(str, "("); // break up the array using "(" and ")" as delimiters
 	token2 = strtok(NULL, ")"); // second token for message
 
-	//check tokens to make sure they break at partntheseis 
-	printf("%s\n", token);	
-	printf("%s\n", token2);
-
-
 	//using strcmp (String compare) test is the first token is equal to either encrypt or decrypt.
 	//if strcmp returns 0 then that means the two strings match
 	if (strcmp(token, "encrypt") == 0) {
@@ -61,12 +56,15 @@ int Encrypt(char *token2) {
 			  //check if it a lowercase letter
 		} else if(token2[i]>=97 && token2[i]<=122) {
 			//loop each letter, encrypt with ceasar cipher
-			cypherText[i]=((((token2[i]-97))+key)%26)+97;	
+			cypherText[i]=((((token2[i]-97))+key)%26)+97;
+			
 		} else {
 			cypherText[i] = token2[i];
 		}	
 	
 	}
+		cypherText[i+1] = '\0';
+
 		printf("Ciphered Text: %s\n", cypherText);
 		return 0;
 }
@@ -90,6 +88,8 @@ int Decrypt (char *token2) {
 			plainText[i] = token2[i];
 		}	
 	}
+
+		plainText[i+1] = '\0';
 
 	printf("Deciphered Text: %s\n ", plainText);
 	return 0;
