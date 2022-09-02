@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-//Call funcations
+//Call functions, avoid implicit declaration error
 int Encrypt(char *token2);
 int Decrypt(char *token2);
 int Help();
@@ -23,34 +24,31 @@ int main() {
 	bool valid = false;
 
 	Help(); //gives a quick list of commands when starting
+	
+	//start of command mode loop
 	while (valid != true) {
-	printf("Please enter a command: "); 
-	fgets(str, sizeof(str), stdin); // gether input of command and store it in an array called str
-	
-	token = strtok(str, "("); // break up the array using "(" and ")" as delimiters
-	token2 = strtok(NULL, ")"); // second token for message
-	
-	printf("Token is : %s\n", token);
 
-	//using strcmp (String compare) test is the first token is equal to either encrypt or decrypt.
-	//if strcmp returns 0 then that means the two strings match
-	if (strcmp(token, "encrypt") == 0) {
-		result = Encrypt(&*token2); //if the first token matches, exec Encrypt() --> line 15
-	} else if (strcmp(token, "decrypt") == 0) {
-		result = Decrypt(&*token2); // if the second token matches, exec Decrypt() --> line 49 
-	} else if (strcmp(token, "quit") == 0){
-			quit(); 
-	} else {
-		printf("Please enter a valid command\n"); //print out error message if the syntax of tokens does not match either encrypt or decrypt 
-	}
-
-	continue;
-	}
+		printf("Please enter a command: "); 
+		fgets(str, sizeof(str), stdin); // gather input of command and store it in an array called str
+	
+		token = strtok(str, "("); // break up the array using "(" and ")" as delimiters
+		token2 = strtok(NULL, ")"); // second token for message
+	
+		//using strcmp (String compare) test is the first token is equal to either encrypt or decrypt.
+		//if strcmp returns 0 then that means the two strings match
+		if (strcmp(token, "exit") == 0) {
+			exit(0);
+		} else if (strcmp(token, "encrypt") == 0) {
+			result = Encrypt(&*token2); //if the first token matches, exec Encrypt() --> line 15
+		} else if (strcmp(token, "decrypt") == 0) {
+			result = Decrypt(&*token2); // if the second token matches, exec Decrypt() --> line 49 
+		} else {
+			printf("[Error]Please enter the command correctly!\n"); //print out error message if the syntax of tokens does not match either encrypt or decrypt 
+		}
+		continue;
+}
 }
 
-void quit() {
-	return ;
-}
 
 
 int Encrypt(char *token2) {	
@@ -112,8 +110,8 @@ int Decrypt (char *token2) {
 
 int Help() { 
 	printf("**Welcome to Ceasar Cipher Encrypter/Decrypter**\n");
-	printf("--Commands avaiable are: encrypt/decrypt and encode/decode--\n");
-	printf("--syntax must be 'encrypt(message)' otherwise will result in error--\n");
+	printf("**Commands avaiable are: encrypt(), decrypt(), and exit()**\n");
+	printf("**Syntax must be 'encrypt(message)' 'decrypt(message) 'exit()'**\n");
 	return 0;
 }
 
