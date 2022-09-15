@@ -6,11 +6,17 @@
 int Encrypt(char *token2);
 int Decrypt(char *token2);
 int Help();
-int quit();
 
+/**
+ * Summary of the main function:
+ * 	The main function begins by starting a loop (Command loop) that waits for user input 
+ * 	in the correct syntax, then parses user input to determine which function is trying to be executed and what message inside your would like 
+ * 	to encrypt/decrypt.
+ */
 int main() {
 		
-		char str[101];
+		char *str;
+		str = (char*)malloc( 300 * sizeof(char) );
 		char *token;
 		char *token2;
 		char result;
@@ -23,11 +29,14 @@ int main() {
 			fgets(str, sizeof(str), stdin); 	
 			token = strtok(str, "("); 		
 			token2 = strtok(NULL, ")");	
-			if (strcmp(token, "exit") == 0) {
+			if (strcasecmp(token, "exit") == 0) {
+				free(str);
 				exit(0);
-			} else if (strcmp(token, "encrypt") == 0) {
+			} else if (strcasecmp(token, "help") == 0) {
+				Help();
+			} else if (strcasecmp(token, "encrypt") == 0) {
 				result = Encrypt(&*token2); 		
-			} else if (strcmp(token, "decrypt") == 0) {
+			} else if (strcasecmp(token, "decrypt") == 0) {
 				result = Decrypt(&*token2);  
 			} else {
 				printf("[Error]Please enter the command correctly!\n");  
@@ -36,6 +45,15 @@ int main() {
 		}	
 }
 
+/*
+ * Summary of the Encrypt function: 
+ * 	The Encrypt function takes the input of token2 to be the encrypted message. Inside the for loop we itterate through all the characters in the array 
+ * 	and decide if they are a capital letter, lowercase letter, or a space and the encrypt each character by shifting it a value of 5 and returning the new character.
+ *
+ * Parameters : *token2
+ *
+ * Description : function to encrypt a message using a ceasar cipher with k=5
+ */
 int Encrypt(char *token2) {	
 
 		char cypherText[101];
@@ -62,6 +80,15 @@ int Encrypt(char *token2) {
 		return 0;
 }
 
+/*
+ * Summary of the Decrypt function: 
+ * 	The Decrypt function takes the input of token2 to be the encrypted message. Inside the for loop we itterate through all the characters in the array 
+ * 	and decide if they are a capital letter, lowercase letter, or a space and the decrypt each character by shifting it a value of 5 and returning the new character.
+ *
+ * Parameters : *token2
+ *
+ * Description : function to decrypt a message using a ceasar cipher with k=5
+ */
 int Decrypt (char *token2) {
 		char plainText[101];
 		int key = 5;
@@ -87,18 +114,14 @@ int Decrypt (char *token2) {
 		return 0;
 }
 
-
-
 /*
- * For encoding and decoding, must parse input into tokens and loop letter by letter, encoding to binary, --> have to add a zero in the begining in order to make it 8 bit unicode compatable. 
- *
- * 
- * /
-
+ * Summary of the Help function
+ * 	Display a message at the begining of the program, as well as be able to be called 
+ */
 int Help() { 
-		printf("**Welcome to Ceasar Cipher Encrypter/Decrypter**\n");
-		printf("**Commands avaiable are: encrypt(), decrypt(), and exit()**\n");
-		printf("**Syntax must be 'encrypt(message)' 'decrypt(message) 'exit()'**\n");
+		printf("\t**Welcome to Ceasar Cipher Encrypter/Decrypter**\n");
+		printf("\t**Commands avaiable are: help(), encrypt(), decrypt(), and exit()**\n");
+		printf("\t**Syntax must be 'encrypt(message)' 'decrypt(message) 'exit()' 'help()'**\n");
 		return 0;
 }
 
